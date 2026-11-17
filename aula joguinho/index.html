@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acerte o Alvo</title>
+    <style>
+        body { background: #ffdf80; color: #663300; text-align: center; font-family: Arial; }
+        h1 { color: #b34d00; margin-top: 40px; }
+        canvas { background: white; border: 3px solid #ff9900; border-radius: 10px; margin-top: 15px; cursor: pointer; }
+        button { background: #f28c00; color: white; border: none; padding: 12px 25px; border-radius: 8px; font-size: 16px; cursor: pointer; }
+        button:hover { background: #cc7000; }
+    </style>
+</head>
+<body>
+    <h1>Acerte o Alvo</h1>
+    <p>Clique no círculo para marcar pontos!</p>
+    <button onclick="Iniciar()">Começar</button>
+    <br><br>
+    <canvas id="x" width="300" height="300"></canvas>
+    <h3>Pontuação</h3>
+    Pontos: <label id="pontos">0</label>
+  <script>
+        pontos = 0;
+        posicaoX = 150;
+        posicaoY = 150;
+
+        function Desenhar() {
+            x = document.getElementById('x').getContext("2d");
+            x.clearRect(0, 0, 300, 300);
+            x.beginPath();
+            x.fillStyle = "#ff9900";
+            x.arc(posicaoX, posicaoY, 20, 0, 2 * 3.14);
+            x.fill();
+        }
+
+        function Iniciar() {
+            pontos = 0;
+            document.getElementById('pontos').innerHTML = pontos;
+            Desenhar();
+        }
+
+        document.getElementById('x').onclick = function(event) {
+            if (pontos >= 10) return;
+
+            mouseX = event.offsetX;
+            mouseY = event.offsetY;
+            distancia = Math.sqrt((mouseX - posicaoX) ** 2 + (mouseY - posicaoY) ** 2);
+
+            if (distancia <= 20) {
+                pontos++;
+                document.getElementById('pontos').innerHTML = pontos;
+
+                if (pontos == 10) {
+                    alert("Parabéns! Você venceu!");
+                } else {
+                    posicaoX = Math.floor(Math.random() * 250) + 25;
+                    posicaoY = Math.floor(Math.random() * 250) + 25;
+                    Desenhar();
+                }
+            } else {
+                alert("Você errou! Tente novamente!");
+            }
+        }
+    </script>
+</body>
+</html>
